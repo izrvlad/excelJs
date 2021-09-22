@@ -3,7 +3,7 @@ import {ExelComponent} from '@core/ExelComponent';
 export class Header extends ExelComponent {
   constructor($root) {
     super($root, {
-      listeners: ['click'],
+      listeners: [],
       name: 'Header'
     });
   }
@@ -20,5 +20,4 @@ export class Header extends ExelComponent {
     onClick(event) {
       console.log('header', event)
     }
-
 }
