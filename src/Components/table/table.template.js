@@ -2,19 +2,26 @@ const CODES={
   A: 65,
   Z: 90
 }
-function toColumn(content) {
+function toColumn(content, index) {
   return `
-        <div class="column">${content}</div>    
+        <div class="column" data-type="resize" data-colid=${index}>
+            ${content}
+            <div class="resize-col" data-resize="col"></div>
+        </div>    
     `
 }
-function createCell() {
-    return `<div class="cell" contenteditable=""></div>`
+function createCell(_, index) {
+  return `<div class="cell" contenteditable="" data-colid=${index}></div>`
 }
-function creteRow(content, index='') {
+function creteRow(content, index=null) {
+  const resize = `<div class="resize-row" data-resize="row"></div>`
   return `
-         <div class="row">
-               <div class="row-info">${index}</div>
-                    <div class="row-data">
+         <div class="row" data-type="resize">
+               <div class="row-info">
+                    ${index ? index: ''}
+                     ${index ? resize: ''}                    
+               </div>
+                    <div class="row-data" data-rowid="${index}">
                     ${content}
                     </div>
                </div>     
@@ -39,7 +46,6 @@ export function createTable(rowsCount=150) {
         .fill(' ')
         .map(createCell)
         .join('')
-      console.log(cells)
       rows.push(creteRow(cells,i+1))
   }
   rows

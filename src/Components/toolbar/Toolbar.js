@@ -3,7 +3,7 @@ import {ExelComponent} from '@core/ExelComponent';
 export class Toolbar extends ExelComponent {
   constructor($root) {
     super($root, {
-      listeners: ['click'],
+      listeners: [],
       name: 'Toolbar'
     });
   }

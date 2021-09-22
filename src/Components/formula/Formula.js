@@ -4,7 +4,7 @@ import {ExelComponent} from '@core/ExelComponent';
 export class Formula extends ExelComponent {
   constructor($root) {
     super($root, {
-      listeners: ['click'],
+      listeners: [],
       name: 'Formula',
     });
   }
