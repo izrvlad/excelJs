@@ -10,8 +10,18 @@ function toColumn(content, index) {
         </div>    
     `
 }
-function createCell(_, index) {
-  return `<div class="cell" contenteditable="" data-colid=${index}></div>`
+function createCell(row) {
+  return function(_, index) {
+    return `
+        <div 
+        class="cell" 
+        contenteditable="" 
+        data-colid=${index} 
+        data-type="cell"
+        data-id="${row}:${index}">
+        
+        </div>`
+  }
 }
 function creteRow(content, index=null) {
   const resize = `<div class="resize-row" data-resize="row"></div>`
@@ -44,10 +54,9 @@ export function createTable(rowsCount=150) {
   for (let i = 0; i <rowsCount; i++) {
     const cells = new Array(colsCount)
         .fill(' ')
-        .map(createCell)
+        .map(createCell(i))
         .join('')
-      rows.push(creteRow(cells,i+1))
+    rows.push(creteRow(cells, i+1))
   }
-  rows
   return rows.join('')
 }

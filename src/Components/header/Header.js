@@ -1,10 +1,11 @@
 import {ExelComponent} from '@core/ExelComponent';
 
 export class Header extends ExelComponent {
-  constructor($root) {
+  constructor($root,options) {
     super($root, {
       listeners: [],
-      name: 'Header'
+      name: 'Header',
+      ...options
     });
   }
     static className = 'excel__header';
