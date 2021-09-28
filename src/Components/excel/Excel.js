@@ -1,16 +1,19 @@
 import {$} from "@core/Dom";
 import {Emiter} from "@core/Emiter";
+import {StoreSubscriber} from "@core/storeSubscriber";
 
 
 export class Excel {
   constructor(selector, options) {
     this.$el = $(selector);
     this.components = options.components || [];
+    this.store = options.store
+    this.subscriber = new StoreSubscriber(this.store)
     this.emitter = new Emiter();
   }
 
   getRoot() {
-    const options = {emitter:this.emitter}
+    const options = {emitter: this.emitter, store: this.store}
     const $root = $.create('div', 'excel')
     this.components = this.components.map(Component=>{
       const el = $.create('div',Component.className);
@@ -23,9 +26,11 @@ export class Excel {
   }
   render() {
     this.$el.append(this.getRoot());
+    this.subscriber.subscribeComponents(this.components)
     this.components.forEach(component=>component.init())
   }
   destroy(){
+    this.subscriber.unSubscribeComponents()
     this.components.forEach((component)=>component.destroy())
   }
 }

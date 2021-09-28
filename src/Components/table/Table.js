@@ -4,6 +4,9 @@ import {resizeGandler} from '@/Components/table/table.resizer';
 import {TableSelection} from '@/Components/table/Table.selection';
 import {changeCell, getCells, isCell, shouldResize} from '@/Components/table/table.functions';
 import {$} from '@core/Dom';
+import {applyStyles, changeCurrentStyles, tableChange, tableResize} from "@/redux/actions";
+import {defaultStyles} from "@core/default";
+import {parse} from "@core/utils";
 
 export class Table extends ExelComponent {
   constructor($root,options) {
@@ -19,25 +22,54 @@ export class Table extends ExelComponent {
     prepare() {
       this.selection = new TableSelection();
     }
+    changeCell($el) {
+      this.selection.select($el)
+      const newStyles = this.selection.curent.getStyles(Object.keys(defaultStyles))
+      this.$emit('table:changeCell',$el)
+      this.$dispatch(changeCurrentStyles(newStyles))
+    }
 
     toHTML() {
-      return createTable()
+      return createTable(20,this.store.getState())
     }
     init() {
       super.init();
       const $el = this.$root.find('[data-id="0:0"]')
-      this.selection.select($el)
-      this.$on('formulaChange',(text)=>this.selection.curent.text(text))
+      $el.focus()
+      changeCell($el)
+      this.$on('formulaChange', (text)=>{
+        this.selection.curent
+            .attr('data-value',text)
+            .text(parse(text))
+        this.changeInputCell(text)
+      })
+      this.$on('toolbar:changeStyle', (style)=>{
+        this.selection.changeStyle(style)
+        this.$dispatch(applyStyles({
+          ids: this.selection.selectedIds,
+          value: style
+        }))
+      })
       this.$on('formula:Enter', ()=>this.selection.curent.focus())
     }
+    changeInputCell(text) {
+      this.$dispatch(tableChange({
+        id: this.selection.curent.id(),
+        text
+      }))
+    }
     onInput(event) {
-      const text = this.selection.curent.text()
-      this.$emit('table:change',text)
+      const text = $(event.target).text()
+      this.changeInputCell(text)
+    }
+    async resizeColl(event) {
+      const data = await resizeGandler(this.$root, event)
+      this.$dispatch(tableResize(data))
     }
 
     onMousedown(event) {
       if (shouldResize(event)) {
-        resizeGandler(this.$root, event)
+        this.resizeColl(event)
       } else if (isCell(event)) {
         const id = event.target.dataset.id
         const $el = this.$root.find(`[data-id="${id}"]`)
@@ -46,7 +78,7 @@ export class Table extends ExelComponent {
           const $cells = getCells(this.$root, $el, current)
           this.selection.selectGroup($cells)
         } else {
-          this.selection.select($el)
+          this.changeCell($el)
         }
       }
     }
@@ -72,9 +104,7 @@ export class Table extends ExelComponent {
       const [row,coll] = id.split(':')
       if (+row < 0 || +coll < 0 ) return
       const $el = this.$root.find(`[data-id="${id}"]`)
-      this.selection.select($el)
-      this.$emit('table:changeCell',$el)
-
+      this.changeCell($el)
 
     }
 

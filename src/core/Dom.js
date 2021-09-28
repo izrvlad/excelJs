@@ -34,6 +34,9 @@ class Dom {
   get data() {
     return this.$el.dataset.colid
   }
+  get RowId() {
+    return this.$el.dataset.rowid
+  }
   findAll(selector) {
     return this.$el.querySelectorAll(selector)
   }
@@ -57,7 +60,7 @@ class Dom {
     }
     return this.$el.dataset.id
   }
-  focus(){
+  focus() {
     this.$el.focus()
     return this
   }
@@ -67,6 +70,19 @@ class Dom {
       return this
     }
     return this.$el.textContent
+  }
+  attr(name, value) {
+    if (value) {
+      this.$el.setAttribute(name, value)
+      return this
+    }
+    return this.$el.getAttribute(name)
+  }
+  getStyles(styles) {
+    return styles.reduce((res,style)=>{
+      res[style] = this.$el.style[style]
+      return res
+    },{})
   }
 }
 

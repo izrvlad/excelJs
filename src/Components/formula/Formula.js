@@ -5,16 +5,19 @@ export class Formula extends ExelComponent {
   constructor($root, options) {
     super($root, {
       listeners: ['input', 'keydown'],
+      subscribers: ['currentText'],
       name: 'Formula',
       ...options
     });
   }
     static className = 'excel__formula';
     init() {
+      this.$input = this.$root.find('[data-input="text"]')
       super.init();
-      const $input = this.$root.find('[data-input="text"]')
-      this.$on('table:change', (text)=>$input.text(text))
-      this.$on('table:changeCell', ($el) => $input.text($el.text()))
+      this.$on('table:changeCell', ($el) => this.$input.text($el.attr('data-value')))
+    }
+    storeChanged({currentText}) {
+      this.$input.text(currentText)
     }
 
   onInput(event) {

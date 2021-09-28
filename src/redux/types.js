@@ -1,0 +1,6 @@
+export const TABLE_RESIZE_COL = 'TABLE_RESIZE_COL';
+export const TABLE_RESIZE_ROW = 'TABLE_RESIZE_ROW';
+export const TABLE_CHANGE = 'TABLE_CHANGE';
+export const CHANGE_STYLES = 'CHANGE_STYLES';
+export const APPLY_STYLE = 'APPLY_STYLE';
+export const CHANGE_TITLE = 'CHANGE_TITLE';
