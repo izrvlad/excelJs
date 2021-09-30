@@ -1,7 +1,7 @@
 import {
   APPLY_STYLE,
   CHANGE_STYLES,
-  CHANGE_TITLE,
+  CHANGE_TITLE, LAST_SEEN,
   TABLE_CHANGE,
   TABLE_RESIZE_COL,
   TABLE_RESIZE_ROW
@@ -39,6 +39,8 @@ export function rootReducer(state, action) {
       }
     case CHANGE_TITLE:
       return {...state, title: action.payload}
+    case LAST_SEEN:
+      return {...state, lastSeen: action.payload}
 
     default: return state
   }

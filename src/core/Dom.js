@@ -28,6 +28,10 @@ class Dom {
   closest(selector) {
     return $(this.$el.closest(selector))
   }
+  clear() {
+    this.Html(' ')
+    return this
+  }
   getCord() {
     return this.$el.getBoundingClientRect()
   }

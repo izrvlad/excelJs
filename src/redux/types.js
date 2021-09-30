@@ -4,3 +4,4 @@ export const TABLE_CHANGE = 'TABLE_CHANGE';
 export const CHANGE_STYLES = 'CHANGE_STYLES';
 export const APPLY_STYLE = 'APPLY_STYLE';
 export const CHANGE_TITLE = 'CHANGE_TITLE';
+export const LAST_SEEN = 'LAST_SEEN'

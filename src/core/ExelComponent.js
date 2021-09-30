@@ -1,4 +1,5 @@
 import {DomEventListener} from '@core/DomEventListener';
+import {lastSeen} from "@/redux/actions";
 
 export class ExelComponent extends DomEventListener {
   constructor($root, options={}) {
@@ -31,16 +32,15 @@ export class ExelComponent extends DomEventListener {
   $dispatch(action) {
     this.store.dispatch(action)
   }
-  $subscribe(fn) {
-    this.sub = this.store.subscribe(fn)
-  }
+
   init() {
     this.initEventListeners()
 
   }
   destroy() {
+    const date = Date.now()
+    this.$dispatch(lastSeen(date))
     this.removeEventListeners();
     this.unsubs.forEach(unsub=>unsub());
-    this.sub.unsubscribe()
   }
 }
