@@ -4,7 +4,8 @@
   "description": "",
   "main": "webpack.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "npx jest ./src",
+    "test:watch": "npx jest --watch ./src",
     "start": "cross-env NODE_ENV=development webpack-dev-server --open",
     "build": "cross-env NODE_ENV=production webpack --mode production"
   },
@@ -21,6 +22,7 @@
   "browserslist": "> 0.25%, not dead",
   "devDependencies": {
     "@babel/core": "^7.15.5",
+    "@babel/plugin-proposal-class-properties": "^7.14.5",
     "@babel/preset-env": "^7.15.6",
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.2.2",
@@ -32,6 +34,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-loader": "^4.0.2",
     "html-webpack-plugin": "^5.3.2",
+    "jest": "^27.2.4",
     "mini-css-extract-plugin": "^2.3.0",
     "node-sass": "^6.0.1",
     "sass": "^1.41.0",
