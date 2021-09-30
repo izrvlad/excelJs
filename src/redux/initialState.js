@@ -1,4 +1,4 @@
-import {storageState} from '@core/utils';
+
 import {defaultStyles, defaultTitle} from '@core/default';
 
 const defaultState = {
@@ -8,10 +8,13 @@ const defaultState = {
   title: defaultTitle,
   currentText: '',
   currentStyles: {...defaultStyles},
-  applyStyles: {}
+  applyStyles: {},
+  lastSeen: null
 }
 
-export const initialState = changeStorageStyles(storageState('excel-storage')) || defaultState
+export const initialState = state=> {
+  return changeStorageStyles(state) || JSON.parse(JSON.stringify(defaultState))
+}
 
 function changeStorageStyles(store) {
   if (store) {

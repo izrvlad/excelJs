@@ -36,8 +36,9 @@ export class Table extends ExelComponent {
       super.init();
       const $el = this.$root.find('[data-id="0:0"]')
       $el.focus()
-      changeCell($el)
+      this.changeCell($el)
       this.$on('formulaChange', (text)=>{
+        text = text === "" ? " " : text
         this.selection.curent
             .attr('data-value',text)
             .text(parse(text))
